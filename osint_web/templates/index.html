@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>OSINT Web Tool</title>
+</head>
+<body>
+    <h1>OSINT Инструмент</h1>
+    <form method="POST">
+        <label>Поиск по нику:</label><br>
+        <input type="text" name="nickname">
+        <button type="submit" name="mode" value="nickname">Искать</button>
+        <br><br>
+        <label>По номеру телефона:</label><br>
+        <input type="text" name="phone">
+        <button type="submit" name="mode" value="phone">Искать</button>
+    </form>
+
+    {% if results %}
+    <h2>Результаты:</h2>
+    <ul>
+      {% for r in results %}
+        <li><a href="{{ r.url }}" target="_blank">{{ r.url }}</a> — {{ r.status }}
+        {% if r.extra %}
+          {% if r.extra.name %}<br>Имя: {{ r.extra.name }}{% endif %}
+          {% if r.extra.desc %}<br>Описание: {{ r.extra.desc }}{% endif %}
+        {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if phone_links %}
+    <h2>Поиск по номеру:</h2>
+    <ul>
+      {% for link in phone_links %}
+        <li><a href="{{ link }}" target="_blank">{{ link }}</a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>
